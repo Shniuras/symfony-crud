@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Title</th>
+            <th>Task</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for category in categories %}
+            <tr>
+                <td>{{ category.id }}</td>
+                <td>{{ category.title }}</td>
+                <td>
+                {% for task in category.tasks %}
+                    {{ task.title }},
+                {% endfor %}
+                </td>
+                <td><a href="{{ path('category.edit', {id: category.id}) }}" class="btn btn-warning" role="button">Edit</a></td>
+                <td><a href="{{ path('category.delete', {id: category.id }) }}" class="btn btn-danger" role="button">Delete</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

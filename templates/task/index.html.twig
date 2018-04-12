@@ -1,14 +1,17 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-    <table>
+    <table class="table">
         <thead>
         <tr>
             <th>#</th>
             <th>Title</th>
             <th>Priority</th>
             <th>Status</th>
+            <th>Category</th>
             <th>Deadline</th>
             <th>Created At</th>
+            <th>Edit</th>
+            <th>Delete</th>
         </tr>
         </thead>
         <tbody>
@@ -18,10 +21,16 @@
                 <td>{{ task.title }}</td>
                 <td>{{ task.priorityString }}</td>
                 <td>{{ task.statusString }}</td>
+                <td>{%  if task.category %}
+                    {{ task.category.title }}
+                {% else %}
+                    -
+                    {% endif %}
+                </td>
                 <td>{{ task.deadline.format('Y-m-d') }}</td>
                 <td>{{ task.createdAt.format('Y-m-d H:i:s') }}</td>
-                <td><a href="{{ path('task.edit', {id: task.id}) }}">Edit</a></td>
-                <td><a href="{{ path('task.delete', {id: task.id }) }}">Delete</a></td>
+                <td><a href="{{ path('task.edit', {id: task.id}) }}" class="btn btn-warning" role="button">Edit</a></td>
+                <td><a href="{{ path('task.delete', {id: task.id }) }}" class="btn btn-danger" role="button">Delete</a></td>
             </tr>
         {% endfor %}
         </tbody>

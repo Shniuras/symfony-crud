@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TaskRepository")
@@ -31,23 +32,33 @@ class Task
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Choice({task::PRIORITY_LOW, task::PRIORITY_MEDIUM, task::PRIORITY_HIGH})
      */
     private $priority;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Choice({task::STATUS_PENDING, task::STATUS_IN_PROGRESS, task::STATUS_DONE})
      */
     private $status;
 
     /**
      * @ORM\Column(type="date")
+     * @Assert\GreaterThan("today")
      */
     private $deadline;
 
     /**
      * @ORM\Column(type="datetime")
+     *
      */
     private $createdAt;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $category;
 
     public function getId()
     {
@@ -55,6 +66,10 @@ class Task
     }
 
     /**
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *     max = 10
+     * )
      * @return mixed
      */
     public function getTitle()
@@ -156,5 +171,21 @@ class Task
     public function setCreatedAt($createdAt): void
     {
         $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
+     * @param mixed $category
+     */
+    public function setCategory($category): void
+    {
+        $this->category = $category;
     }
 }

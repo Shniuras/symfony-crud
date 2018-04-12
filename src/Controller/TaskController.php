@@ -91,8 +91,7 @@ class TaskController extends Controller
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
-            /** @var Task $data */
+        if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             $this->entityManager->persist($data);
             $this->entityManager->flush();
